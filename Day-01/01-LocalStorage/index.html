@@ -25,22 +25,51 @@
 	function init(){
 		document.getElementById("btnAddTask").addEventListener("click", onBtnAddTaskClick);
 		document.getElementById("btnRemoveCompleted").addEventListener("click", onBtnRemoveCompletedClick);
+		for(var i=0, storageLength = localStorage.length; i < storageLength; i++){
+			var taskId = localStorage.key(i);
+			var task = JSON.parse(localStorage.getItem(taskId));
+			addTaskToList(taskId, task);
+		}
 	}
 	function onBtnAddTaskClick(){
 		var taskName = document.getElementById("txtTask").value;
+		var taskId = new Date().valueOf().toString();
+		var newTask = {
+			name : taskName,
+			isCompleted : false
+		};
+		localStorage.setItem(taskId, JSON.stringify(newTask));
+		addTaskToList(taskId, newTask);
+		
+	}
+	function addTaskToList(taskId, task){
 		var newTask = document.createElement("li");
-		newTask.innerHTML = taskName;
+		newTask.innerHTML = task.name;
+		if (task.isCompleted){
+			newTask.classList.add("completed");
+		}
+		newTask.setAttribute("taskId", taskId);
 		newTask.addEventListener("click", onTaskItemClick);
 		document.getElementById("olTaskList").appendChild(newTask);
 	}
 	function onTaskItemClick(){
 		this.classList.toggle("completed");
+		var taskId = this.getAttribute("taskId");
+		var taskName = this.innerHTML;
+		var isCompleted = this.classList.contains("completed");
+		localStorage.setItem(taskId, JSON.stringify({
+			name : taskName,
+			isCompleted : isCompleted
+		}));
 	}
 	function onBtnRemoveCompletedClick(){
 		var taskList = document.getElementById("olTaskList").children;
 		for(var i=taskList.length-1;i>=0;i--){
-			if (taskList[i].classList.contains("completed"))
+			if (taskList[i].classList.contains("completed")){
+				var taskId = taskList[i].getAttribute("taskId");
+				localStorage.removeItem(taskId);
 				taskList[i].remove();
+			}
 		}
 	}
 	</script>
