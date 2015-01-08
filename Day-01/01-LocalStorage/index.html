@@ -22,9 +22,18 @@
 	</style>
 	<script>
 	window.addEventListener("DOMContentLoaded", init);
+	window.addEventListener("storage", onStorageChange);
+	function onStorageChange(storageEvt){
+		console.dir(storageEvt);
+		loadTasksFromStorage();
+	}
 	function init(){
 		document.getElementById("btnAddTask").addEventListener("click", onBtnAddTaskClick);
 		document.getElementById("btnRemoveCompleted").addEventListener("click", onBtnRemoveCompletedClick);
+		loadTasksFromStorage();
+	}
+	function loadTasksFromStorage(){
+		document.getElementById("olTaskList").innerHTML = "";
 		for(var i=0, storageLength = localStorage.length; i < storageLength; i++){
 			var taskId = localStorage.key(i);
 			var task = JSON.parse(localStorage.getItem(taskId));
