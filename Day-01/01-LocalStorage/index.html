@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Local Storage</title>
+	<style>
+	body{
+		margin : 0px;
+	}
+	h1{
+		border-top : 2px solid blue;
+		border-bottom: 2px solid blue;
+		padding: 10px;
+		background-color: lightblue;
+	}
+	.completed {
+		color : red;
+		text-decoration: line-through;
+		font-style: italic;
+		font-weight: bold;
+	}
+	</style>
+	<script>
+	window.addEventListener("DOMContentLoaded", init);
+	function init(){
+		document.getElementById("btnAddTask").addEventListener("click", onBtnAddTaskClick);
+		document.getElementById("btnRemoveCompleted").addEventListener("click", onBtnRemoveCompletedClick);
+	}
+	function onBtnAddTaskClick(){
+		var taskName = document.getElementById("txtTask").value;
+		var newTask = document.createElement("li");
+		newTask.innerHTML = taskName;
+		newTask.addEventListener("click", onTaskItemClick);
+		document.getElementById("olTaskList").appendChild(newTask);
+	}
+	function onTaskItemClick(){
+		this.classList.toggle("completed");
+	}
+	function onBtnRemoveCompletedClick(){
+		var taskList = document.getElementById("olTaskList").children;
+		for(var i=taskList.length-1;i>=0;i--){
+			if (taskList[i].classList.contains("completed"))
+				taskList[i].remove();
+		}
+	}
+	</script>
+</head>
+<body>
+	<h1>Task Manager</h1>
+	<label for="">Task :</label>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ol id="olTaskList"></ol>
+</body>
+</html>
