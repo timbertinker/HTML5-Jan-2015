@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="app.manifest">
 <head>
 	<meta charset="UTF-8">
 	<title>Local Storage</title>
@@ -7,9 +7,17 @@
 	<link rel="stylesheet" href="style-online.css">
 	<script src="TaskStorage.js"></script>
 	<script src="taskManager.js"></script>
+	<script>
+	window.applicationCache.addEventListener("updateready", function(){
+		var response = confirm("A new version of the application is available. Do you want to use it?");
+		if (response){
+			window.location.reload();
+		}
+	});
+	</script>
 </head>
 <body>
-	<h1>Task Manager</h1>
+	<h1>Task Manager - Ver.2.0</h1>
 	<label for="">Task :</label>
 	<input type="text" name="" id="txtTask">
 	<input type="button" value="Add Task" id="btnAddTask">
